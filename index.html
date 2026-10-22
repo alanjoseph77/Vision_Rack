@@ -51,21 +51,23 @@ header nav button:hover,header nav button[aria-pressed="true"]{color:var(--bone)
 /* rack geometry: --W = garment width. Every garment hangs from its shoulder line, so wires are shorter for hoodies (the hood rises above the shoulders) */
 .rack{--W:210px;--drop:calc(var(--W)*.42);position:relative;display:flex;align-items:flex-start;padding:16px max(14vw,calc(50vw - var(--W)*.55)) 30px;width:max-content;min-width:100%;justify-content:center}
 @media (max-width:640px){.rack{--W:158px}}
-.rail{position:absolute;left:4vw;right:4vw;top:23px;height:8px;border-radius:4px;z-index:40;pointer-events:none;
+.rail{position:absolute;left:4vw;right:4vw;top:23px;height:8px;border-radius:4px;z-index:0;pointer-events:none;
   background:linear-gradient(180deg,#f7f4ef 0%,var(--chrome) 40%,#4d4945 100%);box-shadow:0 8px 16px rgba(0,0,0,.65)}
 .rail::before,.rail::after{content:"";position:absolute;top:-8px;width:14px;height:24px;border-radius:3px;background:linear-gradient(90deg,#45413d,#b3aea8,#45413d)}
 .rail::before{left:-6px}.rail::after{right:-6px}
 .hang{position:relative;flex:0 0 auto;width:calc(var(--W)*.3);height:calc(40px + var(--wire) + var(--W)*var(--r));
   transform-origin:50% 12px;animation:idle 6s ease-in-out infinite;animation-delay:var(--d,0s);transition:width .55s cubic-bezier(.2,.8,.2,1)}
 .hang.active{width:calc(var(--W)*1.1)}
-.hang .curl{position:absolute;left:50%;top:-1px;width:30px;height:38px;margin-left:-15px;z-index:41;pointer-events:none;filter:drop-shadow(0 2px 2px rgba(0,0,0,.6))}
-.hang .wire{position:absolute;left:50%;top:36px;width:3px;margin-left:-1.5px;height:calc(var(--wire) + 10px);border-radius:2px;
+.hang .curl{position:absolute;left:50%;top:0;width:24px;height:40px;margin-left:-12px;pointer-events:none}
+.hang .wire{position:absolute;left:50%;top:38px;width:3px;margin-left:-1.5px;height:calc(var(--wire) + 10px);border-radius:2px;
   background:linear-gradient(90deg,#6c6762,#ece8e2 50%,#6c6762);pointer-events:none}
 .hang .body{position:absolute;left:50%;top:calc(40px + var(--wire));width:var(--W);margin-left:calc(var(--W)/-2);pointer-events:none;
   transform:perspective(1000px) rotateY(var(--ry,0deg));transform-origin:50% 0;transition:transform .6s cubic-bezier(.2,.8,.2,1),filter .6s;
   filter:brightness(var(--lit,1)) drop-shadow(0 18px 16px rgba(0,0,0,.7))}
 .hang .g{position:relative;z-index:1;display:block;width:100%}
-.bar{position:absolute;z-index:0;left:50%;top:calc(var(--sy)*100%);width:84%;transform:translate(-50%,-62%);overflow:visible}
+/* tees and crews: the hanger neck shows above the collar; hoodies: the hood covers it, hanger sits at the shoulders */
+.bar{position:absolute;z-index:0;left:50%;top:0;width:76%;transform:translate(-50%,-30%);overflow:visible;filter:drop-shadow(0 2px 2px rgba(0,0,0,.5))}
+.c-hood .bar{top:calc(var(--sy)*100%);transform:translate(-50%,-55%)}
 .hang.active .body{filter:brightness(1.06) drop-shadow(0 26px 22px rgba(0,0,0,.75))}
 .hang.active{animation:swing 1.4s ease-out}
 .hang[hidden]{display:none}
@@ -118,10 +120,10 @@ header nav button:hover,header nav button[aria-pressed="true"]{color:var(--bone)
 .face.back{transform:rotateY(180deg)}
 .face img{display:block;width:100%;filter:url(#breeze) drop-shadow(0 30px 30px rgba(0,0,0,.75))}
 .no-breeze .face img{filter:drop-shadow(0 30px 30px rgba(0,0,0,.75))}
-.swingbox{position:relative;padding-top:64px}
-.d-curl{position:absolute;left:50%;top:0;width:34px;height:42px;margin-left:-17px;z-index:3}
-.d-wire{position:absolute;left:50%;top:40px;width:4px;height:28px;margin-left:-2px;border-radius:2px;background:linear-gradient(90deg,#6c6762,#ece8e2 50%,#6c6762)}
-.d-rail{position:absolute;left:50%;top:9px;z-index:4;pointer-events:none;width:min(80vw,620px);height:8px;transform:translateX(-50%);border-radius:4px;opacity:.55;
+.swingbox{position:relative;z-index:1;padding-top:64px}
+.d-curl{position:absolute;left:50%;top:0;width:36px;height:60px;margin-left:-18px}
+.d-wire{position:absolute;left:50%;top:57px;width:4px;height:10px;margin-left:-2px;border-radius:2px;background:linear-gradient(90deg,#6c6762,#ece8e2 50%,#6c6762)}
+.d-rail{position:absolute;left:50%;top:10.5px;z-index:0;pointer-events:none;width:min(80vw,620px);height:12px;transform:translateX(-50%);border-radius:6px;
   background:linear-gradient(180deg,#f7f4ef 0%,var(--chrome) 40%,#4d4945 100%);-webkit-mask:linear-gradient(90deg,transparent,#000 25%,#000 75%,transparent);mask:linear-gradient(90deg,transparent,#000 25%,#000 75%,transparent)}
 .d-body{position:relative}
 .d-body .bar{z-index:0}
@@ -206,17 +208,24 @@ header nav button:hover,header nav button[aria-pressed="true"]{color:var(--bone)
     <feDisplacementMap in="SourceGraphic" in2="n" scale="7" xChannelSelector="R" yChannelSelector="G"/>
   </filter>
   <linearGradient id="chromeG" x1="0" x2="1"><stop offset="0" stop-color="#6c6762"/><stop offset=".5" stop-color="#f1ede7"/><stop offset="1" stop-color="#7a7570"/></linearGradient>
-  <linearGradient id="woodG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b302b"/><stop offset=".45" stop-color="#1c1715"/><stop offset="1" stop-color="#0c0a09"/></linearGradient>
+  <linearGradient id="woodG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a5236"/><stop offset=".5" stop-color="#4a2f1c"/><stop offset="1" stop-color="#22150c"/></linearGradient>
   <!-- hook: curls over the rail, then drops straight down into the wire -->
-  <symbol id="curl" viewBox="0 0 24 30">
-    <path d="M12 30 V21 C12 16.5 19.5 16 19.5 9.5 C19.5 4.8 16.3 2 12 2 C7.7 2 4.5 4.8 4.5 9 L4.5 11.5" fill="none" stroke="url(#chromeG)" stroke-width="2.6" stroke-linecap="round"/>
-    <circle cx="4.5" cy="12" r="1.6" fill="#e4e0da"/>
+  <!-- drawn 1:1 against the rail (rail occupies y 7-15): the shank rises in front of the rail, arcs over its top,
+       and the tip ends at the rail's top edge so it reads as tucked behind it -->
+  <symbol id="curl" viewBox="0 0 24 40">
+    <ellipse cx="11.5" cy="15.8" rx="4.2" ry="1.1" fill="#000" opacity=".45"/>
+    <path d="M12 40 V9.5 C12 4.2 10.2 1.8 8.3 1.8 C6.4 1.8 5.3 3.6 5.3 6.6" fill="none" stroke="#3d3935" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M12 40 V9.5 C12 4.2 10.2 1.8 8.3 1.8 C6.4 1.8 5.3 3.6 5.3 6.6" fill="none" stroke="url(#chromeG)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M11.6 38 V10" stroke="#fff" stroke-width=".6" opacity=".55"/>
   </symbol>
   <!-- shoulder bar: shaped wooden hanger with chrome neck collar -->
-  <symbol id="bar" viewBox="0 0 200 44">
-    <path d="M6 36 C4 40 9 42 14 41 C50 34 78 18 92 11 L108 11 C122 18 150 34 186 41 C191 42 196 40 194 36 C192 32 186 30 180 28 C150 20 124 9 110 4 L90 4 C76 9 50 20 20 28 C14 30 8 32 6 36 Z" fill="url(#woodG)"/>
-    <path d="M22 30 C52 22 78 10 92 6.5 M108 6.5 C122 10 148 22 178 30" fill="none" stroke="#5b4c44" stroke-width="1.2" stroke-linecap="round" opacity=".7"/>
-    <rect x="94" y="0" width="12" height="9" rx="2" fill="url(#chromeG)"/>
+  <!-- wooden hanger body: chrome nut at the neck, curved shoulders with rounded ends -->
+  <symbol id="bar" viewBox="0 0 200 50">
+    <path d="M87 11 Q100 7 113 11 C130 17 160 28 187 36 Q197 39 194.5 45 Q191.5 49.5 184 47.5 C156 40.5 128 31 112 25 Q100 22 88 25 C72 31 44 40.5 16 47.5 Q8.5 49.5 5.5 45 Q3 39 13 36 C40 28 70 17 87 11 Z" fill="url(#woodG)" stroke="#120b07" stroke-width=".8"/>
+    <path d="M14 39.5 C42 31 72 19.5 88 14 Q100 10.5 112 14 C128 19.5 158 31 186 39.5" fill="none" stroke="#a87a55" stroke-width="1.6" stroke-linecap="round" opacity=".75"/>
+    <path d="M30 41 C55 34 76 25.5 92 20 M108 20 C124 25.5 145 34 170 41" fill="none" stroke="#2a1a10" stroke-width=".9" opacity=".7"/>
+    <rect x="93.5" y="0" width="13" height="12" rx="2.2" fill="url(#chromeG)" stroke="#4a4642" stroke-width=".6"/>
+    <path d="M94 4h12M94 7h12" stroke="#5c5853" stroke-width=".6"/>
   </symbol>
 </svg>
 
@@ -274,10 +283,10 @@ header nav button:hover,header nav button[aria-pressed="true"]{color:var(--bone)
     <div class="stage" id="stage">
       <div class="d-rail" aria-hidden="true"></div>
       <div class="swingbox" id="swingbox">
-        <svg class="d-curl" viewBox="0 0 24 30" aria-hidden="true"><use href="#curl"/></svg>
+        <svg class="d-curl" viewBox="0 0 24 40" aria-hidden="true"><use href="#curl"/></svg>
         <div class="d-wire" aria-hidden="true"></div>
         <div class="d-body" id="dBody">
-        <svg class="bar" viewBox="0 0 200 44" aria-hidden="true"><use href="#bar"/></svg>
+        <svg class="bar" viewBox="0 0 200 50" aria-hidden="true"><use href="#bar"/></svg>
         <div class="flip" id="flip">
           <div class="face front"><img id="imgFront" alt=""></div>
           <div class="face back"><img id="imgBack" alt=""></div>
@@ -351,9 +360,10 @@ rackOrder.forEach((it,k)=>{
   const r=RATIO[it.cut+"-"+heroSide(it)],sy=SHOULDER[it.cut];
   b.style.setProperty("--d",(-k*0.7)+"s");b.style.setProperty("--r",r);b.style.setProperty("--sy",sy);
   // wire length: shoulders line up across the rack, so the wire stops where each garment's top edge begins
-  b.style.setProperty("--wire","calc(var(--drop) - var(--W) * "+(sy*r).toFixed(3)+")");
-  b.innerHTML='<svg class="curl" viewBox="0 0 24 30" aria-hidden="true"><use href="#curl"/></svg><span class="wire"></span>'+
-    '<span class="body"><svg class="bar" viewBox="0 0 200 44" aria-hidden="true"><use href="#bar"/></svg><img class="g" alt="" src="'+img(it.cut,heroSide(it))+'"></span>';
+  // hook goes straight into the collar: every garment hangs directly under the rail
+  b.style.setProperty("--wire","2px");
+  b.innerHTML='<svg class="curl" viewBox="0 0 24 40" aria-hidden="true"><use href="#curl"/></svg><span class="wire"></span>'+
+    '<span class="body c-'+it.cut+'"><svg class="bar" viewBox="0 0 200 50" aria-hidden="true"><use href="#bar"/></svg><img class="g" alt="" src="'+img(it.cut,heroSide(it))+'"></span>';
   b.setAttribute("aria-label",nameOf(it)+", "+inr(CUTS[it.cut].price));
   // mouse: hovering turns a garment to face you. Touch: tap a side garment to bring it to the centre, tap the centre one to open it.
   b.addEventListener("pointerenter",e=>{if(e.pointerType==="mouse")activate(b)});
@@ -436,7 +446,7 @@ function render(animate){
   $("imgFront").src=img(cur.cut,P.front);$("imgBack").src=img(cur.cut,P.back);
   $("imgFront").alt=nameOf(cur)+", front";$("imgBack").alt=nameOf(cur)+", back";
   $("dName").textContent=nameOf(cur);
-  $("dBody").style.setProperty("--sy",SHOULDER[cur.cut]);
+  $("dBody").style.setProperty("--sy",SHOULDER[cur.cut]);$("dBody").className="d-body c-"+cur.cut;
   // ghosts
   const list=visible(),i=Math.max(0,list.findIndex(x=>x.id===cur.id));
   const pv=list[(i-1+list.length)%list.length],nx=list[(i+1)%list.length];
